@@ -15,14 +15,7 @@ class Game
       puts "Current word: #{@current_word.join(" ")}"
       letter = @player2.guess_letter
       matches = @player1.check_letter(letter)
-
-      if matches.length > 0
-        replace_letters(letter, matches)
-        print "\n"
-      else
-        puts "No '#{letter}' found!\n\n"
-        @chances_left -= 1
-      end
+      check_for_matches(letter, matches)
     end
 
     won? ? winning_game : losing_game
@@ -31,6 +24,16 @@ class Game
   private
   def won?
     !@current_word.include?("_")
+  end
+
+  def check_for_matches(letter, matches)
+    if matches.length > 0
+      replace_letters(letter, matches)
+      print "\n"
+    else
+      puts "No '#{letter}' found!\n\n"
+      @chances_left -= 1
+    end
   end
 
   def replace_letters(letter, matches)
