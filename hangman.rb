@@ -10,7 +10,8 @@ class Game
     @secret_word_length = @player1.choose_word
     @current_word = ("_" * @secret_word_length).split("")
 
-    until won?
+    until won? || @turns_left < 1
+      puts "Turns_left: #{@turns_left}"
       puts "Current word: #{@current_word.join(" ")}"
       letter = @player2.guess_letter
       matches = @player1.check_letter(letter)
@@ -21,6 +22,8 @@ class Game
         @turns_left -= 1
       end
     end
+
+    won? ? winning_game : losing_game
   end
 
   private
@@ -32,6 +35,14 @@ class Game
     matches.each do |idx|
       @current_word[idx] = letter
     end
+  end
+
+  def winning_game
+    puts "Guesser won!"
+  end
+
+  def losing_game
+    puts "Out of turns, guesser lost!"
   end
 end
 
