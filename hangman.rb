@@ -1,3 +1,5 @@
+require 'set'
+
 class Game
   def initialize(player1, player2)
     # player1 is checker, player2 is guesser
@@ -53,7 +55,7 @@ end
 
 class HumanPlayer
   def initialize
-    @guessed_letters = []
+    @guessed_letters = Set.new
   end
 
   def choose_word
@@ -83,14 +85,14 @@ class HumanPlayer
       prompt_text(current_word, chances_left)
       letter = gets.chomp
 
-      if @guessed_letters.include?(letter)
+      if @guessed_letters.include?(letter.to_sym)
         valid_letter = false
         puts "You already guessed '#{letter}'!\n\n"
       elsif letter.length < 1
         valid_letter = false
         puts "You didn't guess a letter!"
       else
-        @guessed_letters << letter
+        @guessed_letters << letter.to_sym
         valid_letter = true
       end
     end
@@ -110,7 +112,7 @@ class ComputerPlayer
   def initialize
     @dictionary = File.readlines("dictionary.txt").map(&:chomp)
     @shorten_choices_by_length = false
-    @guessed_letters = []
+    @guessed_letters = Set.new
   end
 
   def choose_word
@@ -163,12 +165,12 @@ class ComputerPlayer
 
     @dictionary.each do |word|
       word.each_char do |letter|
-        letter_counts[letter] += 1 unless @guessed_letters.include?(letter)
+        letter_counts[letter] += 1 unless @guessed_letters.include?(letter.to_sym)
       end
     end
 
     popular_letter = letter_counts.sort_by { |key, val| val }.reverse[0][0]
-    @guessed_letters << popular_letter
+    @guessed_letters << popular_letter.to_sym
 
     popular_letter
   end
