@@ -4,5 +4,5 @@ end
 class HumanPlayer
 end
 
-class ComputerPlaye
+class ComputerPlayer
 end
