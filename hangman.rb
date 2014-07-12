@@ -125,16 +125,19 @@ class ComputerPlayer
     res
   end
 
-  def guess_letter
-    first_minimize if !@shorten_list_by_length
+  def guess_letter(current_word, chances_left)
+    first_minimize(current_word) if !@shorten_list_by_length
+
+    
   end
 
-  def first_minimize
-    #@dictionary = @dictionary.map { |word| word.length ==  }
+  def first_minimize(current_word)
+    @dictionary = @dictionary.select { |word| word.length == current_word.length }
+    @shorten_list_by_length = true
   end
 end
 
-player1 = ComputerPlayer.new
-player2 = HumanPlayer.new
+player1 = HumanPlayer.new
+player2 = ComputerPlayer.new
 g = Game.new(player1, player2)
 g.play
