@@ -3,6 +3,7 @@ class Game
     # player1 is checker, player2 is guesser
     @player1 = player1
     @player2 = player2
+    @turns_left = 6
   end
 
   def play
@@ -10,7 +11,14 @@ class Game
     @current_word = ("_" * @secret_word_length).split("")
 
     until won?
+      letter = @player2.guess_letter
+      matches = @player1.check_letter
 
+      if matches.length > 0
+        replace_letters(matches)
+      else
+        @turns_left -= 1
+      end
     end
   end
 
