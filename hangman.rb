@@ -110,14 +110,21 @@ class ComputerPlayer
     @secret_word.length
   end
 
-  def check_letter
+  def check_letter(letter)
+    res = []
+
+    (@secret_word.length).times do |idx|
+      res << idx if @secret_word[idx] == letter
+    end
+
+    res
   end
 
   def guess_letter
   end
 end
 
-player1 = HumanPlayer.new
+player1 = ComputerPlayer.new
 player2 = HumanPlayer.new
 g = Game.new(player1, player2)
 g.play
