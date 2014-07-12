@@ -60,7 +60,7 @@ class HumanPlayer
     word_length = 0
 
     until word_length > 0
-      print "Enter the secret word's length: "
+      print "Checker, enter the secret word's length: "
       word_length = gets.chomp.to_i
     end
 
@@ -102,7 +102,7 @@ class HumanPlayer
     puts "Turns_left: #{chances_left}"
     puts "Current word: #{current_word.join(" ")}"
     puts "Guessed letters: #{@guessed_letters.sort.join(" ")}\n\n"
-    print "Guess a letter: "
+    print "Guesser, guess a letter: "
   end
 end
 
@@ -180,7 +180,20 @@ class ComputerPlayer
   end
 end
 
-player1 = ComputerPlayer.new
-player2 = ComputerPlayer.new
+player1 = ""
+until player1 == "computer" || player1 == "human"
+  print "Checker is (Human or Computer)? "
+  player1 = gets.chomp.downcase
+end
+
+player2 = ""
+until player2 == "computer" || player2 == "human"
+  print "Guesser is (Human or Computer)? "
+  player2 = gets.chomp.downcase
+end
+
+player1 == "human" ? player1 = HumanPlayer.new : player1 = ComputerPlayer.new
+player2 == "human" ? player2 = HumanPlayer.new : player2 = ComputerPlayer.new
+
 g = Game.new(player1, player2)
 g.play
