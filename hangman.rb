@@ -11,15 +11,16 @@ class Game
     @current_word = ("_" * @secret_word_length).split("")
 
     until won? || @chances_left < 1
-      puts "Turns_left: #{@turns_left}"
+      puts "Turns_left: #{@chances_left}"
       puts "Current word: #{@current_word.join(" ")}"
       letter = @player2.guess_letter
       matches = @player1.check_letter(letter)
 
       if matches.length > 0
         replace_letters(letter, matches)
+        print "\n"
       else
-        puts "No '#{letter}' found!"
+        puts "No '#{letter}' found!\n\n"
         @chances_left -= 1
       end
     end
