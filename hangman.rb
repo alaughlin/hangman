@@ -101,6 +101,7 @@ end
 
 class ComputerPlayer
   def initialize
+    @dictionary = File.readlines("dictionary.txt").map(&:chomp)
   end
 
   def choose_word
