@@ -15,7 +15,7 @@ class Game
   end
 
   def won?
-
+    !@current_word.include?("_")
   end
 end
 
