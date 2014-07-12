@@ -132,6 +132,8 @@ class ComputerPlayer
   end
 
   def guess_letter(current_word, chances_left)
+    first_minimize(current_word) if !@shorten_choices_by_length
+
     prompt_text(current_word, chances_left)
 
     remove_words(current_word)
@@ -149,8 +151,6 @@ class ComputerPlayer
   end
 
   def remove_words(current_word)
-    first_minimize(current_word) if !@shorten_choices_by_length
-
     (current_word.length).times do |idx|
       unless current_word[idx] == "_"
         @dictionary.each do |word|
