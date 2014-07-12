@@ -12,7 +12,7 @@ class Game
 
     until won?
       letter = @player2.guess_letter
-      matches = @player1.check_letter
+      matches = @player1.check_letter(letter)
 
       if matches.length > 0
         replace_letters(letter, matches)
@@ -36,6 +36,7 @@ end
 
 class HumanPlayer
   def initialize
+    @guessed_letters = []
   end
 
   def choose_word
@@ -49,10 +50,34 @@ class HumanPlayer
     word_length
   end
 
-  def check_letter
+  def check_letter(letter)
+    print "Where does '#{letter}' appear in the secret word? "
+    letter_indices = gets.chomp.split(",").map(&:to_i)
+
+    letter_indices
   end
 
   def guess_letter
+    letter = ""
+    valid_letter = false
+
+    until valid_letter
+      valid_letter = true
+      print "Guess a letter: "
+      letter = gets.chomp
+
+      if @guessed_letters.include?(letter)
+        valid_letter = false
+        puts "You already guessed '#{letter}'!"
+      elsif letter.length < 1
+        valid_letter = false
+        puts "You didn't guess a letter!"
+      else
+        valid_letter = true
+      end
+    end
+
+    letter
   end
 end
 
