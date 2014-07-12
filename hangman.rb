@@ -6,6 +6,7 @@ class Game
   end
 
   def play
+    @secret_word_length = @player1.choose_word
   end
 
   def won?
@@ -17,6 +18,14 @@ class HumanPlayer
   end
 
   def choose_word
+    word_length = 0
+
+    until word_length > 0
+      print "Enter the secret word's length: "
+      word_length = gets.chomp.to_i
+    end
+
+    word_length
   end
 
   def check_letter
@@ -39,3 +48,8 @@ class ComputerPlayer
   def guess_letter
   end
 end
+
+player1 = HumanPlayer.new
+player2 = HumanPlayer.new
+g = Game.new(player1, player2)
+g.play
