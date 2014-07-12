@@ -15,15 +15,22 @@ class Game
       matches = @player1.check_letter
 
       if matches.length > 0
-        replace_letters(matches)
+        replace_letters(letter, matches)
       else
         @turns_left -= 1
       end
     end
   end
 
+  private
   def won?
     !@current_word.include?("_")
+  end
+
+  def replace_letters(letter, matches)
+    matches.each do |idx|
+      @current_word[idx] = letter
+    end
   end
 end
 
