@@ -3,14 +3,14 @@ class Game
     # player1 is checker, player2 is guesser
     @player1 = player1
     @player2 = player2
-    @turns_left = 6
+    @chances_left = 6
   end
 
   def play
     @secret_word_length = @player1.choose_word
     @current_word = ("_" * @secret_word_length).split("")
 
-    until won? || @turns_left < 1
+    until won? || @chances_left < 1
       puts "Turns_left: #{@turns_left}"
       puts "Current word: #{@current_word.join(" ")}"
       letter = @player2.guess_letter
@@ -19,7 +19,8 @@ class Game
       if matches.length > 0
         replace_letters(letter, matches)
       else
-        @turns_left -= 1
+        puts "No '#{letter}' found!"
+        @chances_left -= 1
       end
     end
 
@@ -85,6 +86,7 @@ class HumanPlayer
         valid_letter = false
         puts "You didn't guess a letter!"
       else
+        @guessed_letters << letter
         valid_letter = true
       end
     end
