@@ -7,9 +7,15 @@ class Game
 
   def play
     @secret_word_length = @player1.choose_word
+    @current_word = ("_" * @secret_word_length).split("")
+
+    until won?
+
+    end
   end
 
   def won?
+
   end
 end
 
