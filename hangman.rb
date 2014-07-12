@@ -1,6 +1,4 @@
 class Game
-  attr_reader :secret_word_length
-
   def initialize(player1, player2)
     # player1 is checker, player2 is guesser
     @player1 = player1
@@ -45,6 +43,7 @@ class Game
 
   def winning_game
     puts "Guesser won!"
+    puts @current_word.join(" ")
   end
 
   def losing_game
@@ -132,9 +131,12 @@ class ComputerPlayer
 
   def guess_letter(current_word, chances_left)
     prompt_text(current_word, chances_left)
-    first_minimize(current_word) if !@shorten_choices_by_length
+
+    remove_words(current_word)
 
     letter = get_most_popular_letter
+
+    puts "Guessing: #{letter}"
 
     letter
   end
@@ -142,6 +144,18 @@ class ComputerPlayer
   def first_minimize(current_word)
     @dictionary = @dictionary.select { |word| word.length == current_word.length }
     @shorten_choices_by_length = true
+  end
+
+  def remove_words(current_word)
+    first_minimize(current_word) if !@shorten_choices_by_length
+
+    (current_word.length).times do |idx|
+      unless current_word[idx] == "_"
+        @dictionary.each do |word|
+          @dictionary.delete(word) if word[idx] != current_word[idx]
+        end
+      end
+    end
   end
 
   def get_most_popular_letter
@@ -166,7 +180,7 @@ class ComputerPlayer
   end
 end
 
-player1 = HumanPlayer.new
+player1 = ComputerPlayer.new
 player2 = ComputerPlayer.new
 g = Game.new(player1, player2)
 g.play
