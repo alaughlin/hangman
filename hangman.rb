@@ -10,6 +10,7 @@ class Game
     @secret_word_length = @player1.choose_word
     @current_word = ("_" * @secret_word_length).split("")
 
+    print "\n"
     until won? || @chances_left < 1
       puts "Turns_left: #{@chances_left}"
       puts "Current word: #{@current_word.join(" ")}"
@@ -31,7 +32,7 @@ class Game
       replace_letters(letter, matches)
       print "\n"
     else
-      puts "No '#{letter}' found!\n\n"
+      puts "\nNo '#{letter}' found!\n\n"
       @chances_left -= 1
     end
   end
@@ -79,6 +80,7 @@ class HumanPlayer
     valid_letter = false
 
     until valid_letter
+      puts "Guessed letters: #{@guessed_letters.sort.join(" ")}\n\n"
       valid_letter = true
       print "Guess a letter: "
       letter = gets.chomp
