@@ -1,4 +1,6 @@
 class Game
+  attr_reader :secret_word_length
+
   def initialize(player1, player2)
     # player1 is checker, player2 is guesser
     @player1 = player1
@@ -12,9 +14,7 @@ class Game
 
     print "\n"
     until won? || @chances_left < 1
-      puts "Turns_left: #{@chances_left}"
-      puts "Current word: #{@current_word.join(" ")}"
-      letter = @player2.guess_letter
+      letter = @player2.guess_letter(@current_word, @chances_left)
       matches = @player1.check_letter(letter)
       check_for_matches(letter, matches)
     end
@@ -75,11 +75,13 @@ class HumanPlayer
     letter_indices
   end
 
-  def guess_letter
+  def guess_letter(current_word, chances_left)
     letter = ""
     valid_letter = false
 
     until valid_letter
+      puts "Turns_left: #{chances_left}"
+      puts "Current word: #{current_word.join(" ")}"
       puts "Guessed letters: #{@guessed_letters.sort.join(" ")}\n\n"
       valid_letter = true
       print "Guess a letter: "
@@ -87,7 +89,7 @@ class HumanPlayer
 
       if @guessed_letters.include?(letter)
         valid_letter = false
-        puts "You already guessed '#{letter}'!"
+        puts "You already guessed '#{letter}'!\n\n"
       elsif letter.length < 1
         valid_letter = false
         puts "You didn't guess a letter!"
@@ -104,6 +106,7 @@ end
 class ComputerPlayer
   def initialize
     @dictionary = File.readlines("dictionary.txt").map(&:chomp)
+    @shorten_list_by_length = false
   end
 
   def choose_word
@@ -123,6 +126,11 @@ class ComputerPlayer
   end
 
   def guess_letter
+    first_minimize if !@shorten_list_by_length
+  end
+
+  def first_minimize
+    #@dictionary = @dictionary.map { |word| word.length ==  }
   end
 end
 
