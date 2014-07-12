@@ -11,6 +11,7 @@ class Game
     @current_word = ("_" * @secret_word_length).split("")
 
     until won?
+      puts "Current word: #{@current_word.join(" ")}"
       letter = @player2.guess_letter
       matches = @player1.check_letter(letter)
 
@@ -52,7 +53,7 @@ class HumanPlayer
 
   def check_letter(letter)
     print "Where does '#{letter}' appear in the secret word? "
-    letter_indices = gets.chomp.split(",").map(&:to_i)
+    letter_indices = gets.chomp.split(",").map(&:to_i).map { |n| n - 1 }
 
     letter_indices
   end
