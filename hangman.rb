@@ -105,6 +105,9 @@ class ComputerPlayer
   end
 
   def choose_word
+    @secret_word = @dictionary.sample
+    
+    @secret_word.length
   end
 
   def check_letter
